@@ -1,26 +1,230 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --blush: #ffd1dc;
+  --rose: #ff8fab;
+  --deep: #e85d8a;
+  --cream: #fff7f9;
+  --ink: #4a2e35;
+  --gold: #d9b26a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-blush: var(--blush);
+  --color-rose: var(--rose);
+  --color-deep: var(--deep);
+  --color-cream: var(--cream);
+  --color-ink: var(--ink);
+  --color-gold: var(--gold);
+  --font-display: var(--font-playfair);
+  --font-sans: var(--font-quicksand);
+  --font-mono: var(--font-space-grotesk);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--deep);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--ink);
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+}
+
+@keyframes petalFall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+  }
+  100% {
+    transform: translateY(112vh) rotate(320deg);
+  }
+}
+@keyframes swayY {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+@keyframes shakeX {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+}
+@keyframes pulseSoft {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.14);
+    opacity: 0.35;
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+@keyframes marqueeL {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marqueeR {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes cardIn {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* The design expressed interaction states as style-hover / style-active /
+   style-focus attributes. React has no equivalent, so they live here. */
+
+.keypad-key {
+  transition: transform 0.18s ease-in-out, box-shadow 0.18s ease-in-out;
+}
+.keypad-key:hover {
+  box-shadow: 0 6px 18px rgba(232, 93, 138, 0.24);
+}
+.keypad-key:active {
+  transform: scale(0.92);
+}
+.keypad-key--soft:hover {
+  box-shadow: 0 6px 18px rgba(232, 93, 138, 0.18);
+}
+.keypad-key--ok:hover {
+  box-shadow: 0 9px 24px rgba(232, 93, 138, 0.45);
+}
+
+.field {
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.field:focus {
+  border-color: var(--deep);
+  box-shadow: 0 0 0 3px rgba(232, 93, 138, 0.14);
+}
+
+.send-button {
+  transition: transform 0.18s ease-in-out, box-shadow 0.18s ease-in-out;
+}
+.send-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(232, 93, 138, 0.42);
+}
+.send-button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+.send-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.play-button {
+  transition: transform 0.2s ease-in-out;
+}
+.play-button:hover {
+  transform: scale(1.07);
+}
+.play-button:active {
+  transform: scale(0.94);
+}
+
+.wish-card {
+  transition: transform 0.25s ease-in-out;
+}
+.wish-card:hover {
+  transform: rotate(0deg) translateY(-3px);
+}
+
+/* Hovering a marquee row pauses it so a photo can be looked at. */
+.marquee-row {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  padding: 16px 8px;
+}
+.marquee-viewport:hover .marquee-row,
+.marquee-viewport:active .marquee-row {
+  animation-play-state: paused;
+}
+
+.ghost-link {
+  transition: color 0.2s ease-in-out, background 0.2s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-row,
+  [data-petal] {
+    animation: none !important;
+  }
 }
