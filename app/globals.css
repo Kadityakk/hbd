@@ -219,11 +219,44 @@ textarea {
   transition: color 0.2s ease-in-out, background 0.2s ease-in-out;
 }
 
+/* Perangko pemanis di panel journey. Komponennya menitipkan dua set posisi
+   lewat --x-sm/--y-sm (sudut panel, layar sempit) dan --x-lg/--y-lg (mengapit
+   polaroid, layar lebar); di sini tinggal dipilih salah satu. */
+.journey-decor {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.journey-decor-item {
+  position: absolute;
+  --x: var(--x-sm);
+  --y: var(--y-sm);
+  --w: clamp(52px, 14.5vw, 92px);
+  width: calc(var(--w) * var(--s));
+  filter: drop-shadow(0 10px 22px rgba(74, 46, 53, 0.16));
+  opacity: 0.92;
+}
+@media (min-width: 768px) {
+  .journey-decor-item {
+    --x: var(--x-lg);
+    --y: var(--y-lg);
+    --w: clamp(86px, 9.5vw, 138px);
+  }
+}
+.journey-decor-float {
+  animation-name: swayY;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   .marquee-row,
+  .journey-decor-float,
   [data-petal] {
     animation: none !important;
   }
