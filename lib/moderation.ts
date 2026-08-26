@@ -53,11 +53,11 @@ export const MAX_MESSAGE_LENGTH = 400;
 export type ValidationResult = { ok: true } | { ok: false; message: string };
 
 export function validateEntry(name: string, text: string): ValidationResult {
-  if (!text.trim()) return { ok: false, message: "Ucapannya belum diisi 🌸" };
+  if (!text.trim()) return { ok: false, message: "There is no message yet 🌸" };
   if (text.length > MAX_MESSAGE_LENGTH)
-    return { ok: false, message: `Ucapannya kepanjangan (maks ${MAX_MESSAGE_LENGTH} karakter).` };
-  if (name.length > MAX_NAME_LENGTH) return { ok: false, message: `Namanya kepanjangan (maks ${MAX_NAME_LENGTH} karakter).` };
+    return { ok: false, message: `That message is a little too long (max ${MAX_MESSAGE_LENGTH} characters).` };
+  if (name.length > MAX_NAME_LENGTH) return { ok: false, message: `That name is a little too long (max ${MAX_NAME_LENGTH} characters).` };
   if (containsProfanity(text) || containsProfanity(name))
-    return { ok: false, message: "Yuk pakai kata yang lebih manis 🌸" };
+    return { ok: false, message: "Let us keep it sweet 🌸" };
   return { ok: true };
 }

@@ -22,10 +22,12 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Untuk kamu 🌸",
-  description: "Ada sesuatu di dalam.",
+  title: "Ultah pacar aku❤️",
+  description: "Something is waiting inside.",
   // Halaman ini private — dibagikan lewat link, bukan lewat pencarian (PRD 9).
   robots: { index: false, follow: false },
+  // Favicon & ikon home screen datang dari app/icon.png dan app/apple-icon.png
+  // (konvensi file Next 16) — dua-duanya hasil crop persegi dari logo poodle.
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -50,13 +50,13 @@ export function Guestbook() {
             const data = entry.data();
             return {
               id: entry.id,
-              name: typeof data.name === "string" && data.name ? data.name : "Anonim",
+              name: typeof data.name === "string" && data.name ? data.name : "Anonymous",
               text: typeof data.text === "string" ? data.text : "",
             };
           }),
         );
       },
-      () => setStatus({ tone: "error", message: "Ucapan lama gagal dimuat. Coba refresh ya." }),
+      () => setStatus({ tone: "error", message: "The earlier notes did not load. Try refreshing the page?" }),
     );
 
     return unsubscribe;
@@ -78,25 +78,25 @@ export function Guestbook() {
     const db = getDb();
     if (!db) {
       // Tanpa Firebase, ucapan hanya hidup di sesi ini.
-      setEntries((prev) => [{ id: `local-${Date.now()}`, name: trimmedName || "Anonim", text: trimmedText }, ...prev]);
+      setEntries((prev) => [{ id: `local-${Date.now()}`, name: trimmedName || "Anonymous", text: trimmedText }, ...prev]);
       setName("");
       setText("");
       setSending(false);
-      setStatus({ tone: "ok", message: "Tersimpan sementara (Firebase belum diatur)." });
+      setStatus({ tone: "ok", message: "Saved just for now (Firebase is not set up yet)." });
       return;
     }
 
     try {
       await addDoc(collection(db, GUESTBOOK_COLLECTION), {
-        name: trimmedName || "Anonim",
+        name: trimmedName || "Anonymous",
         text: trimmedText,
         createdAt: serverTimestamp(),
       });
       setName("");
       setText("");
-      setStatus({ tone: "ok", message: "Ucapanmu sudah masuk 🌸" });
+      setStatus({ tone: "ok", message: "Your note is in — thank you 🌸" });
     } catch {
-      setStatus({ tone: "error", message: "Gagal mengirim. Coba lagi sebentar lagi ya." });
+      setStatus({ tone: "error", message: "That did not send. Give it another try in a moment." });
     } finally {
       setSending(false);
     }
@@ -111,7 +111,7 @@ export function Guestbook() {
     try {
       await deleteDoc(doc(db, GUESTBOOK_COLLECTION, id));
     } catch {
-      setStatus({ tone: "error", message: "Gagal menghapus ucapan itu." });
+      setStatus({ tone: "error", message: "That note could not be deleted." });
     }
   };
 
@@ -201,8 +201,8 @@ export function Guestbook() {
               value={name}
               maxLength={MAX_NAME_LENGTH}
               onChange={(event) => setName(event.target.value)}
-              placeholder="Nama kamu"
-              aria-label="Nama kamu"
+              placeholder="Your name"
+              aria-label="Your name"
               className="field"
               style={{
                 width: "100%",
@@ -220,8 +220,8 @@ export function Guestbook() {
               value={text}
               maxLength={MAX_MESSAGE_LENGTH}
               onChange={(event) => setText(event.target.value)}
-              placeholder="Ucapan manis buat dia..."
-              aria-label="Ucapan"
+              placeholder="Write something sweet for her..."
+              aria-label="Your message"
               className="field"
               style={{
                 width: "100%",
@@ -257,7 +257,7 @@ export function Guestbook() {
                   boxShadow: "0 8px 22px rgba(232,93,138,.32)",
                 }}
               >
-                {sending ? "Mengirim..." : "Kirim ucapan"}
+                {sending ? "Sending..." : "Send your wish"}
               </button>
             </div>
 
@@ -276,7 +276,7 @@ export function Guestbook() {
 
             {!isFirebaseConfigured && (
               <p style={{ margin: 0, font: "400 12px/1.5 var(--font-quicksand),sans-serif", color: "rgba(74,46,53,.45)" }}>
-                Firebase belum diatur, jadi ucapan belum tersimpan permanen.
+                Firebase is not set up yet, so notes are not saved permanently.
               </p>
             )}
           </div>
@@ -327,7 +327,7 @@ export function Guestbook() {
                 <button
                   type="button"
                   onClick={() => remove(entry.id)}
-                  aria-label={`Hapus ucapan dari ${entry.name}`}
+                  aria-label={`Delete the note from ${entry.name}`}
                   style={{
                     position: "absolute",
                     top: 10,
@@ -391,7 +391,7 @@ function PinnedNote() {
             color: "#fff",
           }}
         >
-          Disematkan
+          Pinned
         </span>
       </div>
 

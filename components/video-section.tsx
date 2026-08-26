@@ -33,7 +33,8 @@ export function VideoSection({ onPlayingChange }: Props) {
         borderRadius: "30px 30px 0 0",
         boxShadow: "0 -22px 46px rgba(232,93,138,.22)",
         padding: "88px 22px 96px",
-        background: "linear-gradient(180deg,#FFC7D6 0%,#FFF2F6 24%,#FFF7F9 100%)",
+        background:
+          "linear-gradient(180deg,#FFC7D6 0%,#FFF2F6 24%,#FFF7F9 100%)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -92,13 +93,33 @@ export function VideoSection({ onPlayingChange }: Props) {
               onEnded={() => onPlayingChange?.(false)}
               onPause={() => onPlayingChange?.(false)}
               onPlay={() => onPlayingChange?.(true)}
-              style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 18 }}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                borderRadius: 18,
+              }}
             />
           ) : (
             <>
               <MediaSlot media={VIDEO.poster} radius={18} sizes="340px" />
-              <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
-                <div style={{ position: "relative", width: 76, height: 76, display: "grid", placeItems: "center" }}>
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  display: "grid",
+                  placeItems: "center",
+                }}
+              >
+                <div
+                  style={{
+                    position: "relative",
+                    width: 76,
+                    height: 76,
+                    display: "grid",
+                    placeItems: "center",
+                  }}
+                >
                   <div
                     aria-hidden="true"
                     style={{
@@ -111,7 +132,7 @@ export function VideoSection({ onPlayingChange }: Props) {
                   />
                   <button
                     type="button"
-                    aria-label="putar video"
+                    aria-label="play the video"
                     onClick={start}
                     className="play-button"
                     style={{
@@ -143,7 +164,9 @@ export function VideoSection({ onPlayingChange }: Props) {
             color: "rgba(74,46,53,.6)",
           }}
         >
-          {VIDEO.src ? VIDEO.note : "Videonya belum diunggah — isi VIDEO.src di lib/content.ts."}
+          {VIDEO.src
+            ? VIDEO.note
+            : "Kelucuan dan keseruan kamu selama ini aku rekap sayang😎"}
         </p>
       </div>
     </section>

@@ -133,6 +133,60 @@ textarea {
     opacity: 0;
   }
 }
+/* Tiap huruf ucapan ulang tahun masuk dengan fade pendek, bukan langsung pop. */
+@keyframes charIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/* Piringan hitam mini di tombol musik. */
+@keyframes discSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* Not-not yang mengambang naik dari tombol musik. */
+@keyframes noteFloat {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(-8deg) scale(0.7);
+  }
+  20% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-14px, -46px) rotate(14deg) scale(1.05);
+  }
+}
+/* Bar equalizer di lencana tombol musik dan di pill judul lagu. */
+@keyframes eqBounce {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+/* Napas halus logo poodle di lock screen. */
+@keyframes logoBreathe {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 10px 26px rgba(232, 93, 138, 0.22);
+  }
+  50% {
+    transform: scale(1.035);
+    box-shadow: 0 14px 34px rgba(232, 93, 138, 0.34);
+  }
+}
 @keyframes cardIn {
   0% {
     opacity: 0;
@@ -258,6 +312,11 @@ textarea {
   .marquee-row,
   .journey-decor-float,
   [data-petal] {
+    animation: none !important;
+  }
+  /* Tombol musik tetap terbaca tanpa gerakan: piringannya diam, halonya tenang. */
+  .music-fab,
+  .music-fab * {
     animation: none !important;
   }
 }

@@ -2,13 +2,30 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { HINT_AFTER_ATTEMPTS, PIN } from "@/lib/content";
+import { BrandMark } from "./brand-mark";
 import { HeartMark } from "./media-slot";
 
-const DEFAULT_HINT = "6 angka · petunjuk: tanggal lahirmu";
-const WRONG_HINT = "Hmm, bukan itu. Coba tanggal lahirmu (hari, bulan, tahun).";
-const SOFT_HINT = "Coba lagi sayang 🌸 — urutannya hari, bulan, lalu tahun (dua angka).";
+/** Jumlah dot & panjang input mengikuti PIN, jadi ganti PIN cukup di content.ts. */
+const PIN_LENGTH = PIN.length;
 
-const KEYS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "C", "0", "ok"] as const;
+const DEFAULT_HINT = "";
+const WRONG_HINT = "try again";
+const SOFT_HINT = "-";
+
+const KEYS = [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "C",
+  "0",
+  "ok",
+] as const;
 
 type Props = {
   onUnlock: () => void;
@@ -36,7 +53,9 @@ export function LockScreen({ onUnlock, onGuest }: Props) {
       attemptsRef.current += 1;
       setShaking(true);
       timers.current.push(setTimeout(() => setShaking(false), 470));
-      setHint(attemptsRef.current >= HINT_AFTER_ATTEMPTS ? SOFT_HINT : WRONG_HINT);
+      setHint(
+        attemptsRef.current >= HINT_AFTER_ATTEMPTS ? SOFT_HINT : WRONG_HINT,
+      );
       setPin("");
     },
     [onUnlock],
@@ -56,9 +75,10 @@ export function LockScreen({ onUnlock, onGuest }: Props) {
         return;
       }
       setPin((prev) => {
-        if (prev.length >= 6) return prev;
+        if (prev.length >= PIN_LENGTH) return prev;
         const next = prev + key;
-        if (next.length === 6) timers.current.push(setTimeout(() => check(next), 260));
+        if (next.length === PIN_LENGTH)
+          timers.current.push(setTimeout(() => check(next), 260));
         return next;
       });
     },
@@ -82,7 +102,8 @@ export function LockScreen({ onUnlock, onGuest }: Props) {
         position: "fixed",
         inset: 0,
         zIndex: 90,
-        background: "linear-gradient(170deg,#FFD1DC 0%,#FFF0F4 45%,#FFF7F9 100%)",
+        background:
+          "linear-gradient(170deg,#FFD1DC 0%,#FFF0F4 45%,#FFF7F9 100%)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -129,7 +150,8 @@ export function LockScreen({ onUnlock, onGuest }: Props) {
           />
         </svg>
 
-        <BigLily />
+        {/* Logo situs: si poodle, dengan lily kecil sebagai alasnya. */}
+        <BrandMark size={92} glow style={{ marginBottom: 14 }} />
 
         <p
           style={{
@@ -140,7 +162,7 @@ export function LockScreen({ onUnlock, onGuest }: Props) {
             color: "#E85D8A",
           }}
         >
-          Untuk kamu
+          For you
         </p>
         <h1
           style={{
@@ -151,7 +173,7 @@ export function LockScreen({ onUnlock, onGuest }: Props) {
             color: "#4A2E35",
           }}
         >
-          Ada sesuatu di dalam
+          Something is waiting inside
         </h1>
         <p
           style={{
@@ -161,12 +183,13 @@ export function LockScreen({ onUnlock, onGuest }: Props) {
             color: "rgba(74,46,53,.66)",
             textWrap: "pretty",
           }}
-        >
-          Masukkan tanggal spesialmu <span style={{ color: "#E85D8A" }}>(hari, bulan, tahun)</span>
-        </p>
+        ></p>
 
-        <div style={{ display: "flex", gap: 11, marginBottom: 20 }} aria-hidden="true">
-          {Array.from({ length: 6 }, (_, i) => (
+        <div
+          style={{ display: "flex", gap: 11, marginBottom: 20 }}
+          aria-hidden="true"
+        >
+          {Array.from({ length: PIN_LENGTH }, (_, i) => (
             <div
               key={i}
               style={{
@@ -174,7 +197,8 @@ export function LockScreen({ onUnlock, onGuest }: Props) {
                 height: 12,
                 borderRadius: "50%",
                 border: "1.5px solid #FF8FAB",
-                transition: "background .2s ease-in-out,transform .2s ease-in-out",
+                transition:
+                  "background .2s ease-in-out,transform .2s ease-in-out",
                 background: pin.length > i ? "#E85D8A" : "transparent",
                 transform: pin.length > i ? "scale(1.1)" : "scale(1)",
               }}
@@ -225,14 +249,20 @@ export function LockScreen({ onUnlock, onGuest }: Props) {
             cursor: "pointer",
           }}
         >
-          Masuk sebagai Teman →
+          as a guest
         </button>
       </div>
     </div>
   );
 }
 
-function KeypadButton({ value, onPress }: { value: string; onPress: (key: string) => void }) {
+function KeypadButton({
+  value,
+  onPress,
+}: {
+  value: string;
+  onPress: (key: string) => void;
+}) {
   const base: React.CSSProperties = {
     height: "clamp(48px,13vw,62px)",
     border: "none",
@@ -256,7 +286,7 @@ function KeypadButton({ value, onPress }: { value: string; onPress: (key: string
           letterSpacing: ".1em",
         }}
       >
-        hapus
+        clear
       </button>
     );
   }
@@ -266,7 +296,7 @@ function KeypadButton({ value, onPress }: { value: string; onPress: (key: string
       <button
         type="button"
         onClick={() => onPress(value)}
-        aria-label="buka"
+        aria-label="unlock"
         className="keypad-key keypad-key--ok"
         style={{
           ...base,
@@ -315,10 +345,18 @@ function VirgoConstellation() {
     height: size,
     borderRadius: "50%",
     background: color,
-    animation: dur ? `twinkle ${dur}s ease-in-out ${delay ?? 0}s infinite` : undefined,
+    animation: dur
+      ? `twinkle ${dur}s ease-in-out ${delay ?? 0}s infinite`
+      : undefined,
   });
 
-  const link = (left: number, top: number, width: number, rotate: number, color: string): React.CSSProperties => ({
+  const link = (
+    left: number,
+    top: number,
+    width: number,
+    rotate: number,
+    color: string,
+  ): React.CSSProperties => ({
     position: "absolute",
     left,
     top,
@@ -333,7 +371,14 @@ function VirgoConstellation() {
     <>
       <div
         aria-hidden="true"
-        style={{ position: "absolute", top: "9%", right: "9%", width: 120, height: 150, opacity: 0.5 }}
+        style={{
+          position: "absolute",
+          top: "9%",
+          right: "9%",
+          width: 120,
+          height: 150,
+          opacity: 0.5,
+        }}
       >
         <div style={star(12, 6, 5, "#D9B26A", 4)} />
         <div style={star(52, 24, 4, "#D9B26A", 5, 0.6)} />
@@ -347,7 +392,14 @@ function VirgoConstellation() {
       </div>
       <div
         aria-hidden="true"
-        style={{ position: "absolute", bottom: "8%", left: "7%", width: 90, height: 90, opacity: 0.35 }}
+        style={{
+          position: "absolute",
+          bottom: "8%",
+          left: "7%",
+          width: 90,
+          height: 90,
+          opacity: 0.35,
+        }}
       >
         <div style={star(8, 10, 4, "#E85D8A")} />
         <div style={star(48, 30, 4, "#E85D8A")} />
@@ -356,38 +408,5 @@ function VirgoConstellation() {
         <div style={link(50, 32, 46, 118, "rgba(232,93,138,.5)")} />
       </div>
     </>
-  );
-}
-
-function BigLily() {
-  const petal = (rotate: number, height: number, background: string): React.CSSProperties => ({
-    position: "absolute",
-    left: "50%",
-    bottom: 0,
-    width: 11,
-    height,
-    background,
-    borderRadius: "60% 60% 50% 50%",
-    transformOrigin: "bottom center",
-    transform: `translateX(-50%) rotate(${rotate}deg)`,
-  });
-
-  return (
-    <div aria-hidden="true" style={{ position: "relative", width: 40, height: 48, marginBottom: 4 }}>
-      <div style={petal(0, 26, "#FFD1DC")} />
-      <div style={petal(-52, 24, "rgba(255,143,171,.8)")} />
-      <div style={petal(52, 24, "rgba(255,143,171,.8)")} />
-      <div
-        style={{
-          position: "absolute",
-          left: "50%",
-          bottom: 0,
-          width: 1.5,
-          height: 16,
-          background: "#D9B26A",
-          transform: "translateX(-50%)",
-        }}
-      />
-    </div>
   );
 }

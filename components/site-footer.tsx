@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FOOTER } from "@/lib/content";
+import { BrandMark } from "./brand-mark";
 
 export function SiteFooter() {
   const [secretOpen, setSecretOpen] = useState(false);
@@ -29,6 +30,8 @@ export function SiteFooter() {
       >
         {"❀".repeat(20)}
       </p>
+
+      <BrandMark size={58} style={{ marginBottom: 18 }} />
 
       <p
         style={{
