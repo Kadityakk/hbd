@@ -17,9 +17,60 @@ export function VideoSection({ onPlayingChange }: Props) {
     if (!VIDEO.src) return;
     setStarted(true);
     onPlayingChange?.(true);
-    // Elemen video baru ada setelah render berikutnya.
-    requestAnimationFrame(() => videoRef.current?.play().catch(() => {}));
+    videoRef.current?.play().catch(() => {});
   };
+
+  const playOverlay = (
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        display: "grid",
+        placeItems: "center",
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          width: 76,
+          height: 76,
+          display: "grid",
+          placeItems: "center",
+        }}
+      >
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: "50%",
+            background: "rgba(255,255,255,.5)",
+            animation: "pulseSoft 2.8s ease-in-out infinite",
+          }}
+        />
+        <button
+          type="button"
+          aria-label="play the video"
+          onClick={start}
+          className="play-button"
+          style={{
+            position: "relative",
+            width: 60,
+            height: 60,
+            border: "none",
+            borderRadius: "50%",
+            background: "linear-gradient(160deg,#FF8FAB,#E85D8A)",
+            boxShadow: "0 8px 22px rgba(232,93,138,.4)",
+            display: "grid",
+            placeItems: "center",
+            cursor: "pointer",
+          }}
+        >
+          <HeartMark />
+        </button>
+      </div>
+    </div>
+  );
 
   return (
     <section
@@ -84,74 +135,35 @@ export function VideoSection({ onPlayingChange }: Props) {
             background: "#FFE6ED",
           }}
         >
-          {started && VIDEO.src ? (
-            <video
-              ref={videoRef}
-              src={VIDEO.src}
-              controls
-              playsInline
-              onEnded={() => onPlayingChange?.(false)}
-              onPause={() => onPlayingChange?.(false)}
-              onPlay={() => onPlayingChange?.(true)}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                borderRadius: 18,
-              }}
-            />
+          {VIDEO.src ? (
+            <>
+              {/* Video-nya selalu ter-mount: `preload="metadata"` + fragment
+                  `#t=` bikin browser melukis frame pertama sebagai poster,
+                  tanpa nunggu seluruh file ke-download. */}
+              <video
+                ref={videoRef}
+                src={`${VIDEO.src}#t=0.1`}
+                poster={VIDEO.poster.src || undefined}
+                preload="metadata"
+                controls={started}
+                playsInline
+                onEnded={() => onPlayingChange?.(false)}
+                onPause={() => onPlayingChange?.(false)}
+                onPlay={() => onPlayingChange?.(true)}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  borderRadius: 18,
+                }}
+              />
+              {!started && playOverlay}
+            </>
           ) : (
             <>
               <MediaSlot media={VIDEO.poster} radius={18} sizes="340px" />
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  display: "grid",
-                  placeItems: "center",
-                }}
-              >
-                <div
-                  style={{
-                    position: "relative",
-                    width: 76,
-                    height: 76,
-                    display: "grid",
-                    placeItems: "center",
-                  }}
-                >
-                  <div
-                    aria-hidden="true"
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      borderRadius: "50%",
-                      background: "rgba(255,255,255,.5)",
-                      animation: "pulseSoft 2.8s ease-in-out infinite",
-                    }}
-                  />
-                  <button
-                    type="button"
-                    aria-label="play the video"
-                    onClick={start}
-                    className="play-button"
-                    style={{
-                      position: "relative",
-                      width: 60,
-                      height: 60,
-                      border: "none",
-                      borderRadius: "50%",
-                      background: "linear-gradient(160deg,#FF8FAB,#E85D8A)",
-                      boxShadow: "0 8px 22px rgba(232,93,138,.4)",
-                      display: "grid",
-                      placeItems: "center",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <HeartMark />
-                  </button>
-                </div>
-              </div>
+              {playOverlay}
             </>
           )}
         </div>

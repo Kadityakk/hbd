@@ -187,6 +187,16 @@ textarea {
     box-shadow: 0 14px 34px rgba(232, 93, 138, 0.34);
   }
 }
+/* Bendera bunting di halaman poster. */
+@keyframes flagSway {
+  0%,
+  100% {
+    transform: rotate(-3.5deg);
+  }
+  50% {
+    transform: rotate(3.5deg);
+  }
+}
 @keyframes cardIn {
   0% {
     opacity: 0;
@@ -269,6 +279,29 @@ textarea {
   animation-play-state: paused;
 }
 
+/* Halaman poster: kartunya miring seperti ditempel, lurus saat disentuh. */
+.poster-card {
+  transform: rotate(-1.5deg);
+  transition: transform 0.35s ease-in-out, box-shadow 0.35s ease-in-out;
+}
+.poster-card:hover,
+.poster-card:active {
+  transform: rotate(0deg) translateY(-6px);
+  box-shadow: 0 32px 66px rgba(232, 93, 138, 0.3);
+}
+.poster-flag {
+  animation: flagSway 3.6s ease-in-out infinite;
+}
+.poster-float {
+  animation: swayY 5.6s ease-in-out infinite;
+}
+.era-chip {
+  transition: transform 0.22s ease-in-out;
+}
+.era-chip:hover {
+  transform: rotate(0deg) translateY(-3px);
+}
+
 .ghost-link {
   transition: color 0.2s ease-in-out, background 0.2s ease-in-out;
 }
@@ -311,6 +344,8 @@ textarea {
   }
   .marquee-row,
   .journey-decor-float,
+  .poster-flag,
+  .poster-float,
   [data-petal] {
     animation: none !important;
   }

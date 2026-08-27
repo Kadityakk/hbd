@@ -31,7 +31,7 @@ export const LOGO = {
 export const HERO = {
   /** Baris kecil di atas judul. */
 
-  title: "Happy Birthday, my sweetest love 💐😘",
+  title: "Happy Birthday, my sweetest love",
   paragraph:
     "I hope this new year of your life brings you even more happiness, good health, and slowly turns all your dreams into reality. I want to stick around and watch it all happen with you, celebrating every little and big moment together. lopyuu lopyuuu lopyuuu 😘",
   /** Video/foto bunga lily sebagai background. Video akan diputar muted + loop. */
@@ -186,7 +186,7 @@ export const JOURNEY: JourneyPanel[] = [
     badge: "19 tahun",
     caption:
       "dangggg inii nih iniii, pacar aku sekarang udah makin dewasa, makin cantik, makin lucu, makin sexy, makin hot, makin baddie😍💐🤤😘",
-    stampLabel: "19 · 2026 ❤️",
+    stampLabel: "19",
     photo: {
       src: "/photos/journey/pacarakusekarang.jpeg",
       placeholder: "pacarakusekarang",
@@ -217,7 +217,7 @@ export const VIDEO = {
   title: "There is a little video for you sayanggku",
   note: "cinematic 😎",
   /** Video ucapan personal (portrait 9:16). */
-  src: "",
+  src: "/video/video_recap_compressed.mp4",
   poster: {
     src: "",
     placeholder: "birthday video (portrait)",
@@ -255,12 +255,12 @@ export const MOOD = {
   ).map(moodCard),
   rowB: (
     [
-      ["Lutunaa kita", "lutunakita.jpeg"],
-      ["Hiking date ygy", "hikingdateygy.jpeg"],
+      ["Lutunaa kamuu", "lutunakita.jpeg"],
+      ["Hiking ygy", "hikingdateygy.jpeg"],
       ["Mam sushii", "mamsushi.jpeg"],
       ["Buket bunga lutu", "buketbungalutu.jpeg"],
-      ["Diesteria selfie", "diesteriaselfie.jpeg"],
-      ["Fotbar pertama kita", "fotbarpertamakita.jpeg"],
+      ["cakep banget gilak", "diesteriaselfie.jpeg"],
+      ["🤏🤏", "fotbarpertamakita.jpeg"],
     ] satisfies MoodEntry[]
   ).map(moodCard),
 };
@@ -276,6 +276,21 @@ export const PINNED_NOTE = {
   headline: "Happy nineteenth birthday, my love.",
   body: "I have never been very good at big surprises, so I made this instead slowly, one small piece at a time a little place with all of you inside it. Thank you for being the most patient, the warmest, the person I am proudest of. I hope everything you quietly wish for finds its way to you this year, and that I get to be standing right next to you when it does.",
   signature: "Your Bf Aditya",
+};
+
+export const POSTER = {
+  /** Kolase tiga masa: bocil, sekarang, dan bayi. */
+  photo: {
+    src: "/photos/desain.jpg",
+    placeholder: "kolase ulang tahun (19)",
+    alt: "Kolase foto ulang tahun ke-19: bayi, kecil, dan sekarang",
+  } satisfies Media,
+  /** Rasio asli file kolasenya, biar tidak ada yang kepotong. */
+  ratio: "1600 / 1130",
+  caption: "",
+  /** Angka di segel emas pojok poster. */
+
+  /** Tiga masa yang muncul di kolase. */
 };
 
 export const FOOTER = {

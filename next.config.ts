@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   // izinkan akses dev server dari device lain di jaringan lokal
   // (misal buka dari HP untuk cek tampilan mobile)
   allowedDevOrigins: ["*.*.*.*"],
+  devIndicators: false,
 
   images: {
     unoptimized: true,

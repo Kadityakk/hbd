@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useClientValue } from "@/lib/use-client-value";
+import { BirthdayPoster } from "./birthday-poster";
 import { Guestbook } from "./guestbook";
 import { HeroSection } from "./hero-section";
 import { JourneyGallery } from "./journey-gallery";
@@ -50,6 +51,10 @@ export function BirthdayExperience() {
       {!mode && <LockScreen onUnlock={() => enter("pacar")} onGuest={() => enter("teman")} />}
 
       <HeroSection start={mode !== null} />
+
+      {/* Poster kolase: tepat sesudah ucapan pembuka, dan tidak digerbang mode
+          akses — tamu dan dia sama-sama lihat halaman ini. */}
+      <BirthdayPoster />
 
       {isPartner && (
         <JourneyGallery>
