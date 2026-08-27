@@ -274,8 +274,8 @@ export const GUESTBOOK = {
 /** Ucapan kamu sendiri — selalu tampil paling atas dan tidak bisa dihapus. */
 export const PINNED_NOTE = {
   headline: "Happy nineteenth birthday, my love.",
-  body: "I have never been very good at big surprises, so I made this instead slowly, one small piece at a time a little place with all of you inside it. Thank you for being the most patient, the warmest, the person I am proudest of. I hope everything you quietly wish for finds its way to you this year, and that I get to be standing right next to you when it does.",
-  signature: "Your Bf Aditya",
+  body: "Happy birthdayyy sayangakuuuuuu wish you all the best, more beautiful, more excellent, more smarter, and more more loveee",
+  signature: "Kadityakk",
 };
 
 export const POSTER = {
